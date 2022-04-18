@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class TransactionsController extends Controller
 {
+    private Carbon $transactionDate;
+
+    private const FIRSTCSVROW = 0;
+
     public function index()
     {
         $data = $this->prepareDataToShow();
