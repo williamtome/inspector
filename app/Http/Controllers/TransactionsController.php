@@ -48,7 +48,6 @@ class TransactionsController extends Controller
             if ($data->key() === self::FIRSTCSVROW) {
                 $this->transactionDate = $date;
 
-
                 if ($this->existsTransactionsForDate($this->transactionDate)) {
                     return redirect()->back()
                         ->with('error', 'Já existe transações para esta data!');
