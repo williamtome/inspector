@@ -39,7 +39,7 @@ class TransactionsController extends Controller
                 break;
             }
 
-            if (count($row) < 8) {
+            if (array_search("", $row)) {
                 continue;
             }
 
