@@ -25,16 +25,9 @@ class UploadRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        if (!$this->hasFile('csv') && !$this->file('csv')->isValid()) {
-            return redirect('/home')
+        if (!$this->hasFile('csv') && !empty($this->file('csv')) && !$this->file('csv')->isValid()) {
+            return redirect()->back()
                 ->with('error', 'Por favor adicione um arquivo CSV que não esteja vazio!');
         }
-    }
-
-    public function messages(): array
-    {
-        return [
-            'csv.required' => 'Adicione um arquivo do tipo CSV para importação!',
-        ];
     }
 }
