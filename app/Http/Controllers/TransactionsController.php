@@ -22,7 +22,7 @@ class TransactionsController extends Controller
             ->orderBy('transactions_date', 'desc')
             ->get();
 
-        return view('form-upload', compact('importations');
+        return view('form-upload', compact('importations'));
     }
 
     public function upload(UploadRequest $request)
