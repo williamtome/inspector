@@ -7,11 +7,8 @@ Route::get('/', function () {
     return redirect('/home');
 });
 
-Route::get('/home', function () {
-    return view('form-upload');
-});
+Route::get('/home', [TransactionsController::class, 'index']);
 
-Route::get('/transactions', [TransactionsController::class, 'index']);
 Route::post('/upload', [TransactionsController::class, 'upload'])
     ->name('upload');
 
