@@ -18,9 +18,11 @@ class TransactionsController extends Controller
 
     public function index()
     {
-        $data = $this->prepareDataToShow();
+        $importations = Importation::query()
+            ->orderBy('transactions_date', 'desc')
+            ->get();
 
-        return view('transactions', compact('data'));
+        return view('form-upload', compact('importations');
     }
 
     public function upload(UploadRequest $request)
