@@ -20,5 +20,6 @@ class Transaction extends Model
         'destiny_account',
         'amount',
         'date',
+        'importation_id',
     ];
 }
