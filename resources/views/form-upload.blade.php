@@ -20,4 +20,27 @@
     <button>Importar</button>
 </form>
 
+<br><br>
+
+<h1>Importações Realizadas</h1>
+
+<table>
+    <tr>
+        <th>Data Transações</th>
+        <th>Data Importação</th>
+    </tr>
+    <tbody>
+        @forelse($importations as $importation)
+            <tr>
+                <td>{{ $importation->transactionsDate() }}</td>
+                <td>{{ $importation->createdAt() }}</td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="2">Nenhuma importação!</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
 @endsection
