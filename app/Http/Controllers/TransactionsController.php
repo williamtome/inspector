@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UploadRequest;
+use App\Models\Importation;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransactionsController extends Controller
 {
     private Carbon $transactionDate;
 
     private const FIRSTCSVROW = 0;
+    private Importation $importation;
 
     public function index()
     {
@@ -34,6 +37,8 @@ class TransactionsController extends Controller
 
         $data = $this->readCompleteCSVFile($csv);
 
+        DB::beginTransaction();
+
         foreach ($data as $row) {
             if (!$row) {
                 break;
@@ -53,7 +58,11 @@ class TransactionsController extends Controller
                         ->with('error', 'Já existe transações para esta data!');
                 }
 
-                Transaction::create($this->getCSVPayload($row));
+                $this->importation = Importation::create([
+                    'transactions_date' => $this->transactionDate->toDateString(),
+                ]);
+
+                Transaction::create($this->getCSVPayload($row, $this->importation));
 
                 continue;
             }
@@ -62,10 +71,12 @@ class TransactionsController extends Controller
                 continue;
             }
 
-            Transaction::create($this->getCSVPayload($row));
+            Transaction::create($this->getCSVPayload($row, $this->importation));
         }
 
-        return redirect('/transactions');
+        DB::commit();
+
+        return redirect('/home');
     }
 
     private function prepareDataToShow(): array
@@ -91,7 +102,7 @@ class TransactionsController extends Controller
         return [];
     }
 
-    private function getCSVPayload($data): array
+    private function getCSVPayload($data, $importation): array
     {
         return [
             'origin_bank' => $data[0],
@@ -102,6 +113,7 @@ class TransactionsController extends Controller
             'destiny_account' => $data[5],
             'amount' => $data[6],
             'date' => $data[7],
+            'importation_id' => $importation->id,
         ];
     }
 
