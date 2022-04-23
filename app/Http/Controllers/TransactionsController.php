@@ -2,46 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\Csv\CsvRepository;
+use App\Http\Repositories\Importation\ImportationRepository;
+use App\Http\Repositories\Transaction\TransactionRepository;
 use App\Http\Requests\UploadRequest;
 use App\Models\Importation;
-use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TransactionsController extends Controller
 {
-    private Carbon $transactionDate;
-
     private const FIRSTCSVROW = 0;
+    private \Generator|array $rows;
+    private Carbon $transactionDate;
     private Importation $importation;
+
+    private CsvRepository $csvRepository;
+    private TransactionRepository $repository;
+    private ImportationRepository $importationRepository;
+
+    public function __construct(
+        TransactionRepository $repository,
+        CsvRepository $csvRepository,
+        ImportationRepository $importationRepository
+    ) {
+        $this->repository = $repository;
+        $this->csvRepository = $csvRepository;
+        $this->importationRepository = $importationRepository;
+    }
 
     public function index()
     {
-        $importations = Importation::query()
-            ->orderBy('transactions_date', 'desc')
-            ->get();
+        $importations = $this->importationRepository->getAllByTransactionsDate();
 
-        return view('form-upload', compact('importations'));
+        return view('form-upload', ['importations' => $importations]);
     }
 
     public function upload(UploadRequest $request)
     {
-        $file = $request->file('csv');
+        $csvPath = $this->csvRepository->upload($request);
 
-        $path = $file->store('spreadsheets');
+        $this->rows = $this->csvRepository->read($csvPath);
 
-        $csvPath = storage_path('app/' . $path);
+        DB::transaction(function () {
+            $this->handleCsvFile();
+        });
 
-        session()->put('spreadsheet_path', $csvPath);
+        return redirect('/home');
+    }
 
-        $csv = fopen($csvPath, 'r');
-
-        $data = $this->readCompleteCSVFile($csv);
-
-        DB::beginTransaction();
-
-        foreach ($data as $row) {
+    public function handleCsvFile()
+    {
+        foreach ($this->rows as $row) {
             if (!$row) {
                 break;
             }
@@ -52,19 +65,21 @@ class TransactionsController extends Controller
 
             $date = Carbon::parse($row[7]);
 
-            if ($data->key() === self::FIRSTCSVROW) {
+            if ($this->isFirstRowOfCSVFile()) {
                 $this->transactionDate = $date;
 
-                if ($this->existsTransactionsForDate($this->transactionDate)) {
+                if ($this->repository->existForDate($this->transactionDate)) {
                     return redirect()->back()
                         ->with('error', 'Já existe transações para esta data!');
                 }
 
-                $this->importation = Importation::create([
+                $this->importation = $this->importationRepository->store([
                     'transactions_date' => $this->transactionDate->toDateString(),
                 ]);
 
-                Transaction::create($this->getCSVPayload($row, $this->importation));
+                $this->repository->store(
+                    $this->getCsvPayload($row, $this->importation)
+                );
 
                 continue;
             }
@@ -73,38 +88,11 @@ class TransactionsController extends Controller
                 continue;
             }
 
-            Transaction::create($this->getCSVPayload($row, $this->importation));
+            $this->repository->store($this->getCSVPayload($row, $this->importation));
         }
-
-        DB::commit();
-
-        return redirect('/home');
     }
 
-    private function prepareDataToShow(): array
-    {
-        $spreadsheetPath = session('spreadsheet_path');
-        $csv = fopen($spreadsheetPath, 'r');
-
-        $data = [];
-
-        while ($row = fgetcsv($csv,0,',')) {
-            $data[] = $row;
-        }
-
-        return $data;
-    }
-
-    private function readCompleteCSVFile($csv): \Generator
-    {
-        while (!feof($csv)) {
-            yield fgetcsv($csv);
-        }
-
-        return [];
-    }
-
-    private function getCSVPayload($data, $importation): array
+    private function getCsvPayload($data, $importation): array
     {
         return [
             'origin_bank' => $data[0],
@@ -119,9 +107,8 @@ class TransactionsController extends Controller
         ];
     }
 
-    private function existsTransactionsForDate(Carbon $date)
+    private function isFirstRowOfCSVFile(): bool
     {
-        return Transaction::where('date', 'like', $date->toDateString() . '%')->exists();
+        return $this->rows->key() === self::FIRSTCSVROW;
     }
-
 }
