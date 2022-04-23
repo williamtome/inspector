@@ -9,6 +9,7 @@ To carry out this analysis, we can upload files through a main screen, which mus
 # Project features
 
 - [Board Sprint 1](https://trello.com/b/mXvtOwSt/challenge-upload-semana-1)
+- [Board Sprint 2](https://trello.com/b/ImfztSDH/challenge-upload-semana-2)
 
 # Techs and Tools
 
