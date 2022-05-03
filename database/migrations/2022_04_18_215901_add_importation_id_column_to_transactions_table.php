@@ -31,7 +31,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropForeign('importation_id');
+            $table->dropForeign('transactions_importation_id_index');
             $table->dropColumn('importation_id');
         });
     }
