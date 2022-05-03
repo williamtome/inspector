@@ -16,6 +16,14 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
+    public function index()
+    {
+        return view('dashboard', [
+            'users' => User::where('name', '<>', 'Admin')
+                ->where('id', '<>', Auth::id())
+                ->get(),
+        ]);
+    }
     /**
      * Display the registration view.
      *
