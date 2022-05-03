@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\CsvService;
+namespace App\Http\Services\Csv;
 
 use App\Http\Repositories\Csv\CsvRepository;
 use App\Http\Repositories\Importation\ImportationRepository;
