@@ -12,6 +12,31 @@
 
                     <h1>Usuários</h1>
 
+                    <div class="mt-6">
+                        <table class="w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-400">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-mail</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @forelse($users as $user)
+                                <tr>
+                                    <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $user->name }}</td>
+                                    <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $user->email }}</td>
+                                    <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">aasdad</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="3" class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">Sem usuários</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
