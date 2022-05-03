@@ -29,7 +29,7 @@ class TransactionsController extends Controller
     {
         $importations = $this->importationRepository->getAllByTransactionsDate();
 
-        return view('form-upload', ['importations' => $importations]);
+        return view('upload.form', ['importations' => $importations]);
     }
 
     public function upload(UploadRequest $request)

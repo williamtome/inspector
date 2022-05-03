@@ -12,7 +12,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [RegisteredUserController::class, 'index'])
         ->name('dashboard');
 
-    Route::get('/home', [TransactionsController::class, 'index']);
+    Route::get('/upload', [TransactionsController::class, 'index'])
+        ->name('upload');
 
     Route::post('/upload', [TransactionsController::class, 'upload'])
         ->name('upload');
