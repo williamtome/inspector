@@ -7,6 +7,7 @@ use App\Http\Repositories\Importation\ImportationRepository;
 use App\Http\Repositories\Transaction\TransactionRepository;
 use App\Models\Importation;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CsvService
 {
@@ -56,6 +57,7 @@ class CsvService
 
                 $this->importation = $this->importationRepository->store([
                     'transactions_date' => $this->transactionDate->toDateString(),
+                    'user_id' => Auth::id(),
                 ]);
 
                 $this->repository->store(
