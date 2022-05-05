@@ -14,6 +14,11 @@ class Importation extends Model
 
     public $timestamps = false;
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
     public function transactionsDate(): string
     {
         return Carbon::createFromFormat('Y-m-d', $this->transactions_date)
