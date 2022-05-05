@@ -23,18 +23,20 @@ class UploadRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'csv.required' => 'Campo obrigatório.',
+            'csv.mimes' => 'O tipo de arquivo aceito é somente CSV.',
+            'csv.max' => 'O tamanho do arquivo aceito é até 128 MB.'
+        ];
+    }
+
     protected function prepareForValidation()
     {
         if ($this->invalidCsv()) {
             return redirect()->back()
                 ->with('error', 'Por favor adicione um arquivo CSV que não esteja vazio!');
         }
-    }
-
-    private function invalidCsv(): bool
-    {
-        return !$this->hasFile('csv')
-            && !empty($this->file('csv'))
-            && !$this->file('csv')->isValid();
     }
 }
