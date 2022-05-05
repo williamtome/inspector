@@ -10,7 +10,10 @@ class Importation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['transactions_date'];
+    protected $fillable = [
+        'user_id',
+        'transactions_date'
+    ];
 
     public $timestamps = false;
 
