@@ -39,6 +39,7 @@
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Transações</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Importação</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuário</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -46,6 +47,7 @@
                                 <tr>
                                     <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $importation->transactionsDate() }}</td>
                                     <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $importation->createdAt() }}</td>
+                                    <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $importation->user->name }}</td>
                                 </tr>
                             @empty
                                 <tr>
