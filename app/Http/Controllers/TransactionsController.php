@@ -45,6 +45,6 @@ class TransactionsController extends Controller
             ))->handle();
         });
 
-        return redirect('/home');
+        return redirect()->route('upload');
     }
 }
