@@ -34,9 +34,9 @@ class UploadRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        if ($this->invalidCsv()) {
+        if (!$this->hasFile('csv')) {
             return redirect()->back()
-                ->with('error', 'Por favor adicione um arquivo CSV que não esteja vazio!');
+                ->withErrors(['message', 'Por favor, adicione um arquivo CSV que não esteja vazio.']);
         }
     }
 }
