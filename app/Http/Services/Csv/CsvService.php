@@ -60,9 +60,7 @@ class CsvService
                     'user_id' => Auth::id(),
                 ]);
 
-                $this->repository->store(
-                    $this->getCsvPayload($row, $this->importation)
-                );
+                $this->repository->store($this->getCsvPayload($row));
 
                 continue;
             }
@@ -71,11 +69,11 @@ class CsvService
                 continue;
             }
 
-            $this->repository->store($this->getCSVPayload($row, $this->importation));
+            $this->repository->store($this->getCSVPayload($row));
         }
     }
 
-    private function getCsvPayload($data, $importation): array
+    private function getCsvPayload($data): array
     {
         return [
             'origin_bank' => $data[0],
@@ -86,7 +84,7 @@ class CsvService
             'destiny_account' => $data[5],
             'amount' => $data[6],
             'date' => $data[7],
-            'importation_id' => $importation->id,
+            'importation_id' => $this->importation->id,
         ];
     }
 
