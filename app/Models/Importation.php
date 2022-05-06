@@ -22,6 +22,11 @@ class Importation extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function transactions()
+    {
+        return $this->hasMany('App\Models\Transaction');
+    }
+
     public function transactionsDate(): string
     {
         return Carbon::createFromFormat('Y-m-d', $this->transactions_date)
