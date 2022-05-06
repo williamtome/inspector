@@ -57,7 +57,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="2" class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">Nenhuma importação!</td>
+                                    <td colspan="4" class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">Nenhuma importação!</td>
                                 </tr>
                             @endforelse
                         </tbody>
