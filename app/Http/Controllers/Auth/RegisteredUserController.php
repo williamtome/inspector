@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\RegisteredUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Mail\RegisteredUser;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rules;
-
 class RegisteredUserController extends Controller
 {
     public function index()
@@ -52,10 +47,7 @@ class RegisteredUserController extends Controller
             'password' => bcrypt($password),
         ]);
 
-        event(new Registered($user));
-
-        Mail::to($user->email)
-            ->send(new RegisteredUser($user, $password));
+        event(new RegisteredUser($user, $password));
 
         Auth::login($user);
 

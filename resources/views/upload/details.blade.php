@@ -3,6 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __("Transações da Importação #" . $importation->id) }}
         </h2>
+        <a class="flex justify-end" href="{{ route('upload') }}">Voltar</a>
     </x-slot>
 
     <div class="py-12">
