@@ -10,6 +10,15 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('register/{user}', [RegisteredUserController::class, 'edit'])
+                ->name('register.edit');
+
+    Route::put('register/{user}', [RegisteredUserController::class, 'update'])
+                ->name('register');
+
+    Route::delete('register/{user}', [RegisteredUserController::class, 'delete'])
+                ->name('register.edit');
+
     Route::get('/dashboard', [RegisteredUserController::class, 'index'])
         ->name('dashboard');
 
