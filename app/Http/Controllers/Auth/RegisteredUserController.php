@@ -55,7 +55,6 @@ class RegisteredUserController extends Controller
     {
         $user->update([
             'name' => $request->name,
-            'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
