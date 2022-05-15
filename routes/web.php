@@ -17,7 +17,7 @@ Route::middleware(['auth'])->group(function () {
                 ->name('register.update');
 
     Route::delete('register/{user}', [RegisteredUserController::class, 'delete'])
-                ->name('register.delete');
+                ->name('register.destroy');
 
     Route::get('/dashboard', [RegisteredUserController::class, 'index'])
         ->name('dashboard');
