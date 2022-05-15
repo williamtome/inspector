@@ -60,4 +60,13 @@ class RegisteredUserController extends Controller
 
         return redirect(RouteServiceProvider::HOME);
     }
+
+    public function delete(User $user)
+    {
+        $user->active = false;
+        $user->save();
+        $user->delete();
+
+        return redirect(RouteServiceProvider::HOME);
+    }
 }
