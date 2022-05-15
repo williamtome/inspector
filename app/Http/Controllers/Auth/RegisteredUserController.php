@@ -15,6 +15,8 @@ class RegisteredUserController extends Controller
     {
         $users = User::where('name', '<>', 'Admin')
             ->where('id', '<>', Auth::id())
+            ->where('active', true)
+            ->whereNull('deleted_at')
             ->get();
 
         return view('dashboard', [
