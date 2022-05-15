@@ -23,11 +23,16 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-//            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
+
+        if ($this->method === 'PUT') {
+            $rules['password'] = ['required', 'confirmed', \Rules\Password::defaults()];
+        }
+
+        return $rules;
     }
 
     public function messages()

@@ -22,7 +22,10 @@
                             <tr>
                                 <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $user->name }}</td>
                                 <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $user->email }}</td>
-                                <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">aasdad</td>
+                                <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">
+                                    <a href="{{ route('register.edit', $user) }}">Editar</a>
+                                    <a href="#">Deletar</a>
+                                </td>
                             </tr>
                             @empty
                             <tr>

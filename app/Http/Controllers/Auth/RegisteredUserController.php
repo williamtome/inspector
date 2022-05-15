@@ -13,10 +13,12 @@ class RegisteredUserController extends Controller
 {
     public function index()
     {
+        $users = User::where('name', '<>', 'Admin')
+            ->where('id', '<>', Auth::id())
+            ->get();
+
         return view('dashboard', [
-            'users' => User::where('name', '<>', 'Admin')
-                ->where('id', '<>', Auth::id())
-                ->get(),
+            'users' => $users,
         ]);
     }
     /**
@@ -50,6 +52,24 @@ class RegisteredUserController extends Controller
         event(new RegisteredUser($user, $password));
 
         Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function edit(User $user)
+    {
+        return view('auth.register', [
+            'user' => $user,
+        ]);
+    }
+
+    public function update(UserRequest $request, User $user)
+    {
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
 
         return redirect(RouteServiceProvider::HOME);
     }
