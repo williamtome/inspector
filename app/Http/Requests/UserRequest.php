@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class UserRequest extends FormRequest
 {
@@ -23,16 +24,17 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        if ($this->method() === 'PUT') {
+            return [
+                'name' => 'required|string|max:255',
+                'password' => ['required', 'confirmed', Password::defaults()],
+            ];
+        }
+
+        return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
         ];
-
-        if ($this->method === 'PUT') {
-            $rules['password'] = ['required', 'confirmed', \Rules\Password::defaults()];
-        }
-
-        return $rules;
     }
 
     public function messages()
