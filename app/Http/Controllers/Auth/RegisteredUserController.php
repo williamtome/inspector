@@ -65,6 +65,13 @@ class RegisteredUserController extends Controller
 
     public function delete(User $user)
     {
+        if ($user->importations()->exists()) {
+            return redirect()->back()
+                ->withErrors([
+                    "Usuário {$user->name} tem importações realizadas.",
+                ]);
+        }
+
         $user->active = false;
         $user->save();
         $user->delete();
