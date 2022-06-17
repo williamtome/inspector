@@ -13,11 +13,7 @@ class RegisteredUserController extends Controller
 {
     public function index()
     {
-        $users = User::where('name', '<>', 'Admin')
-            ->where('id', '<>', Auth::id())
-            ->where('active', true)
-            ->whereNull('deleted_at')
-            ->get();
+        $users = User::type()->get();
 
         return view('dashboard', [
             'users' => $users,
