@@ -59,6 +59,11 @@ class User extends Authenticatable
             : $query;
     }
 
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin;
+    }
+
     protected static function booted()
     {
         static::addGlobalScope(new ActiveScope);
