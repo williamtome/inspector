@@ -54,9 +54,9 @@ class User extends Authenticatable
 
     public function scopeType(Builder $query): Builder
     {
-        return Auth::user()->name !== 'Admin'
-            ? $query->where('name', '<>', 'Admin')
-            : $query;
+        return Auth::user()->isAdmin()
+            ? $query
+            : $query->where('is_admin', false);
     }
 
     public function isAdmin(): bool
