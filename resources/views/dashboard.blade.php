@@ -19,15 +19,15 @@
                     @endif
 
                     <table class="w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-400">
+                        <thead class="bg-gray-200">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                                     Nome
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                                     E-mail
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                                     Opções
                                 </th>
                             </tr>
@@ -38,16 +38,16 @@
                                 <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $user->name }}</td>
                                 <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $user->email }}</td>
                                 <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">
-                                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register.edit', $user) }}">
+                                    <x-nav-link href="{{ route('register.edit', $user) }}">
                                         Editar
-                                    </a>
+                                    </x-nav-link>
+                                    @can('manage-users')
                                     <form method="POST" action="{{ route('register.destroy', $user) }}">
                                         @method('DELETE')
                                         @csrf
-                                        <x-button>
-                                            Deletar
-                                        </x-button>
+                                        <x-button>Deletar</x-button>
                                     </form>
+                                    @endcan
                                 </td>
                             </tr>
                             @empty
