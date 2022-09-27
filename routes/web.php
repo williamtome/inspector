@@ -11,25 +11,28 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('register/{user}', [RegisteredUserController::class, 'edit'])
+                ->middleware('can:view-user')
                 ->name('register.edit');
 
     Route::put('register/{user}', [RegisteredUserController::class, 'update'])
+                ->middleware('can:update-user')
                 ->name('register.update');
 
     Route::delete('register/{user}', [RegisteredUserController::class, 'delete'])
+                ->middleware('can:manage-users')
                 ->name('register.destroy');
 
     Route::get('/dashboard', [RegisteredUserController::class, 'index'])
-        ->name('dashboard');
+                ->name('dashboard');
 
     Route::get('/upload', [ImportationsController::class, 'index'])
-        ->name('upload');
+                ->name('upload');
 
     Route::post('/upload', [TransactionsController::class, 'upload'])
-        ->name('upload');
+                ->name('upload');
 
     Route::get('/transactions/{importation}', [TransactionsController::class, 'show'])
-        ->name('importation.show');
+                ->name('importation.show');
 });
 
 require __DIR__.'/auth.php';
