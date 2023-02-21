@@ -21,9 +21,9 @@
                             <br>
                         @endif
 
-                        <input type="file" name="csv">
+                        <x-input type="file" name="csv" />
                         <br><br>
-                        <button>Importar</button>
+                        <x-button>Importar</x-button>
                     </form>
                 </div>
             </div>
@@ -37,12 +37,12 @@
                     <h1>Importações Realizadas</h1>
 
                     <table class="w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-400">
+                        <thead class="bg-gray-200">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Transações</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Importação</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuário</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Opções</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">Data Transações</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">Data Importação</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">Usuário</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">Opções</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -52,7 +52,7 @@
                                     <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $importation->createdAt() }}</td>
                                     <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">{{ $importation->user->name }}</td>
                                     <td class="px-6 py-4 text-sm text-center font-medium text-gray-900 whitespace-nowrap">
-                                        <a href="{{ route('importation.show', $importation) }}">Detalhar</a>
+                                        <x-nav-link href="{{ route('importation.show', $importation) }}">Detalhar</x-nav-link>
                                     </td>
                                 </tr>
                             @empty

@@ -52,7 +52,6 @@
             @endif
 
             <div class="flex items-center justify-end mt-4">
-                <a href="{{ route('dashboard') }}">Voltar</a>
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Já tem cadastro?') }}
                 </a>
@@ -60,6 +59,8 @@
                 <x-button class="ml-4">
                     {{ __('Cadastrar') }}
                 </x-button>
+
+                <a class="ml-3" href="{{ route('dashboard') }}">Voltar</a>
             </div>
         </form>
     </x-auth-card>

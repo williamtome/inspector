@@ -13,11 +13,7 @@ class RegisteredUserController extends Controller
 {
     public function index()
     {
-        $users = User::where('name', '<>', 'Admin')
-            ->where('id', '<>', Auth::id())
-            ->where('active', true)
-            ->whereNull('deleted_at')
-            ->get();
+        $users = User::type()->get();
 
         return view('dashboard', [
             'users' => $users,
@@ -65,6 +61,13 @@ class RegisteredUserController extends Controller
 
     public function delete(User $user)
     {
+        if ($user->importations()->exists()) {
+            return redirect()->back()
+                ->withErrors([
+                    "Usuário {$user->name} tem importações realizadas.",
+                ]);
+        }
+
         $user->active = false;
         $user->save();
         $user->delete();

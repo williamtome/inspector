@@ -52,7 +52,7 @@ class CsvService
 
                 if ($this->repository->existForDate($this->transactionDate)) {
                     return redirect()->back()
-                        ->withErrors(['message', 'Já existe transações para esta data!']);
+                        ->withErrors(['Já existe transações para esta data!']);
                 }
 
                 $this->importation = $this->importationRepository->store([
